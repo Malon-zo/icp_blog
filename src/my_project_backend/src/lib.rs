@@ -14,7 +14,7 @@ fn get_blogs() -> Vec<Blog>{
 }
 
 #[ic_cdk::update]
-fn add_blog(title: String, date: u32, content: String, tags: Vec<String>) {
-    let new_blog = Blog::new(title, date, content, tags);
+fn add_blog(title: String, content: String, tags: Vec<String>) {
+    let new_blog = Blog::new(title, content, tags);
     BLOGS.with(|blogs| blogs.borrow_mut().push(new_blog));
 }
