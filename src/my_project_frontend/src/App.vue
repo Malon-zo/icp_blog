@@ -1,28 +1,48 @@
 <script setup>
 import { ref } from 'vue';
 import { my_project_backend } from 'declarations/my_project_backend/index';
-let greeting = ref('');
+
+const blogs = ref([]);
 
 async function handleSubmit(e) {
   e.preventDefault();
   const target = e.target;
-  const name = target.querySelector('#name').value;
-  await my_project_backend.greet(name).then((response) => {
-    greeting.value = response;
-  });
+  const title = target.querySelector("#title").value;
+  const content = target.querySelector("#title").value;
+  const tags = target.querySelector("#tags").value;
+
+  const tag_array = tags.split(',');
+
+  await my_project_backend.add_blog(title, content, tag_array);
+  await fetchBlogs();
+};
+
+async function fetchBlogs() {
+  const rawBlogs = await my_project_backend.get_blogs();
+  blogs.value = rawBlogs.map((blog) => {
+    return {
+      ...blog,
+      date: blog.date.toString()
+    }
+  })
 }
+fetchBlogs();
+
 </script>
 
 <template>
   <main>
-    <img src="/logo2.svg" alt="DFINITY logo" />
+    <img src="/doomer.jpg" alt="DFINITY logo" />
     <br />
     <br />
     <form action="#" @submit="handleSubmit">
-      <label for="name">Enter your name: &nbsp;</label>
-      <input id="name" alt="Name" type="text" />
-      <button type="submit">Click Me!</button>
+      <div>
+        <div><p>Title: </p><input id="title" name="title" type="text" /></div>
+        <div><p>Content: </p><input id="content" name="content" type="text" /></div>
+        <div><p>Tags: </p><input id="tags" name="tags" type="text" /></div>
+        <button type="submit">DON'T CLICK ME!</button>
+        {{ blogs }}
+      </div>
     </form>
-    <section id="greeting">{{ greeting }}</section>
   </main>
 </template>
