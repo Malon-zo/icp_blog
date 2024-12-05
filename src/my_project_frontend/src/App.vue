@@ -31,19 +31,41 @@ fetchBlogs();
 </script>
 
 <template>
-  <main class="container mx-auto">
-    <img src="/doomer.jpg" alt="DFINITY logo" class="mx-auto mt-4"/>
+  <main class="container mx-auto flex flex-row">
+    <section class="m-12">
+      <img src="/doomer.jpg" alt="DFINITY logo" class="mx-auto mt-4 rounded-3xl border-2 border-solid border-amber-500"/>
     <br />
     <br />
 
-    <form action="#" @submit="handleSubmit">
-      <div>
-        <div><p class="text-zinc-100">Title: </p><input id="title" type="text" /></div>
-        <div><p class="text-zinc-100">Content: </p><input class="w-full" id="content" type="text" /></div>
-        <div><p class="text-zinc-100">Tags: </p><input id="tags" type="text" /></div>
-        <button type="submit">DON'T CLICK ME!</button>
-        {{ blogs }}
-      </div>
+    <form class="grid gap-6" action="#" @submit="handleSubmit">
+        <div class="grid gap-1">
+          <p class="text-zinc-100">Title: </p>
+          <input class="w-full rounded-md bg-zinc-700 text-zinc-100 outline-none p-1" id="title" type="text" />
+        </div>
+        <div class="grid gap-1">
+          <p class="text-zinc-100">Content: </p>
+          <textarea class="w-full rounded-md bg-zinc-700 text-zinc-100 outline-none p-1" id="content" type="text" rows="4" />
+        </div>
+        <div class="grid gap-1">
+          <p class="text-zinc-100">Tags: </p>
+          <input class="w-full rounded-md bg-zinc-700 text-zinc-100 outline-none p-1" id="tags" type="text" />
+        </div>
+        <div class="mx-auto">
+          <button class="bg-amber-500 text-zinc-900 place-self-center rounded-md p-1" type="submit">DON'T CLICK ME!</button>
+        </div>
+        
+        <div class="text-zinc-100">
+        </div>
     </form>
+    </section>
+
+    <section class="m-12">
+
+        <div class="text-zinc-100">
+          {{ blogs.content }}
+        </div>
+
+    </section>
+    
   </main>
 </template>
