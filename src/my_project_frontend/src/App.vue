@@ -31,15 +31,16 @@ fetchBlogs();
 </script>
 
 <template>
-  <main>
-    <img src="/doomer.jpg" alt="DFINITY logo" />
+  <main class="container mx-auto">
+    <img src="/doomer.jpg" alt="DFINITY logo" class="mx-auto mt-4"/>
     <br />
     <br />
+
     <form action="#" @submit="handleSubmit">
       <div>
-        <div><p>Title: </p><input id="title" name="title" type="text" /></div>
-        <div><p>Content: </p><input id="content" name="content" type="text" /></div>
-        <div><p>Tags: </p><input id="tags" name="tags" type="text" /></div>
+        <div><p class="text-zinc-100">Title: </p><input id="title" type="text" /></div>
+        <div><p class="text-zinc-100">Content: </p><input class="w-full" id="content" type="text" /></div>
+        <div><p class="text-zinc-100">Tags: </p><input id="tags" type="text" /></div>
         <button type="submit">DON'T CLICK ME!</button>
         {{ blogs }}
       </div>
