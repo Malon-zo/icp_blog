@@ -3,17 +3,17 @@ import { ref } from 'vue';
 import { my_project_backend } from 'declarations/my_project_backend/index';
 
 const blogs = ref([]);
+const blogTags = ref([]);
 
 async function handleSubmit(e) {
-  e.preventDefault();
   const target = e.target;
   const title = target.querySelector("#title").value;
-  const content = target.querySelector("#title").value;
-  const tags = target.querySelector("#tags").value;
+  const content = target.querySelector("#content").value;
+  const tags = blogTags.value;
 
-  const tag_array = tags.split(',');
+  console.log(tags)
 
-  await my_project_backend.add_blog(title, content, tag_array);
+  await my_project_backend.add_blog(title, content, tags);
   await fetchBlogs();
 };
 
@@ -28,6 +28,17 @@ async function fetchBlogs() {
 }
 fetchBlogs();
 
+function saveTag() {
+  const tagsInput = document.querySelector("#tags");
+
+  if(tagsInput.value == "")
+    return ;
+
+  blogTags.value.push(tagsInput.value);
+  tagsInput.value = "";
+  console.log(blogTags);
+}
+
 </script>
 
 <template>
@@ -37,7 +48,7 @@ fetchBlogs();
     <br />
     <br />
 
-    <form class="grid gap-6" action="#" @submit="handleSubmit">
+    <div class="grid gap-6">
         <div class="grid gap-1">
           <p class="text-zinc-100">Title: </p>
           <input class="w-full rounded-md bg-zinc-700 text-zinc-100 outline-none p-1" id="title" type="text" />
@@ -48,21 +59,31 @@ fetchBlogs();
         </div>
         <div class="grid gap-1">
           <p class="text-zinc-100">Tags: </p>
-          <input class="w-full rounded-md bg-zinc-700 text-zinc-100 outline-none p-1" id="tags" type="text" />
+          <input 
+            v-on:keyup.enter="saveTag"
+            class="w-full rounded-md bg-zinc-700 text-zinc-100 outline-none p-1" id="tags" type="text" />
         </div>
         <div class="mx-auto">
-          <button class="bg-amber-500 text-zinc-900 place-self-center rounded-md p-1" type="submit">DON'T CLICK ME!</button>
+          <button class="bg-amber-500 text-zinc-900 place-self-center rounded-md p-1" @onclick="handleSubmit" type="submit">DON'T CLICK ME!</button>
         </div>
         
         <div class="text-zinc-100">
         </div>
-    </form>
+    </div>
     </section>
 
-    <section class="m-12">
+    <section class="mx-auto w-max m-12">
 
-        <div class="text-zinc-100">
-          {{ blogs.content }}
+        <div v-for="blog in blogs" class="mx-auto text-zinc-100">
+          <div class="mx-auto flex flex-row place-content-between">
+            <h2 class="text-3xl mb-4">{{ blog.title }}</h2>
+            <div>{{ new Date(Number(blog.date / 1_000_000)).toLocaleString() }}</div>
+          </div>
+          <h3 class="text-xl mb-2">{{ blog.content }}</h3>
+          
+          <div v-for="tag in blog.tags">
+            <p>{{tag}}</p>
+          </div>
         </div>
 
     </section>
